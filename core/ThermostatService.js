@@ -123,6 +123,35 @@ class ThermostatService extends Service {
             await client.logout();
         }
     }
+    
+    async setAwayModeOff() {
+        this._logger.debug('Turning Away Mode off...');
+
+        return this.setAwayMode('home');
+    }
+
+    async setAwayModeOn() {
+        this._logger.debug('Turning Away Mode on...');
+
+        return this.setAwayMode('away');
+    }
+
+    async setAwayMode(mode) {
+        this._logger.debug(`Setting Away Mode to ${mode}...`);
+        const client = await this.login();
+        try {
+            await this.verifyDevice(client);
+
+            let updatedDevice = await this._setTemperatureStrategy.setAwayMode(client, mode);
+
+            let messages = [`The away mode is now set to ${mode == 'away' ? 'on' : 'off'}.`];
+            this.logStatus(updatedDevice);
+
+            return this.createResponse(messages, client);
+        } finally {
+            await client.logout();
+        }
+    }
 
     /**
      * Verifies the client is online and can
