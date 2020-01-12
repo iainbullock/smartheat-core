@@ -11,6 +11,12 @@ class SetTemperatureStrategy {
         const updatedDevice = await client.device();
         return updatedDevice;
     }
+    
+    async setAwayMode(client, mode) {
+        await client.setAwayMode(mode);
+        const updatedDevice = await client.device();
+        return updatedDevice;
+    }
 }
 
 module.exports = SetTemperatureStrategy;
