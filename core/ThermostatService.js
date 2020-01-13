@@ -144,7 +144,7 @@ class ThermostatService extends Service {
 
             let updatedDevice = await this._setTemperatureStrategy.setAwayMode(client, mode);
 
-            let messages = [`The away mode is now set to ${mode == 'away' ? 'on' : 'off'}.`];
+            let messages = [`The away mode is now set to ${updatedDevice.awayMode ? "on" : "off"}.`];
             this.logStatus(updatedDevice);
 
             return this.createResponse(messages, client);
