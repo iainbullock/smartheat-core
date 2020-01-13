@@ -35,6 +35,9 @@ class ThermostatService extends Service {
             const messages = [];
             messages.push(`The current temperature is ${this.speakTemperature(device.currentTemperature)} degrees.`);
             messages.push(`The target is ${this.speakTemperature(device.targetTemperature)} degrees.`);
+            if (device.awayMode === 'away') {
+                    messages.push(`Away Mode is on.`);
+            }
             await this.determineIfHolding(device, messages);
 
             this.logStatus(device);
