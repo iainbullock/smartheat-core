@@ -25,7 +25,7 @@
     "nyc": "^14.1.1",
     "promise-fs": "^2.1.1",
     "sinon": "^7.5.0",
-    "smartheat-clients": "github:matthewturner/smartheat-clients#v1.2.3",
+    "smartheat-clients": "github:iainbullock/smartheat-clients#AwayMode",
     "validate-npm-package-license": "^3.0.4"
   },
   "dependencies": {
