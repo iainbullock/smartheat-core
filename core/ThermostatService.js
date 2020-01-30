@@ -51,12 +51,13 @@ class ThermostatService extends Service {
     }
 
     async determineIfHolding(device, messages, qualifier = '') {
-        if (device.status !== 'on') {
-            return;
-        }
-
         if (qualifier !== '') {
             qualifier = ` ${qualifier}`;
+        }
+
+        if (device.status !== 'on') {
+            messages.push(`The heating is ${qualifier} off.`);
+            return;
         }
 
         const status = await this._holdStrategy.status();
@@ -65,9 +66,9 @@ class ThermostatService extends Service {
             const timeSinceStart = (moment().diff(status.startDate) / 1000).toFixed(0);
             const durationSinceStart = new Duration(`PT${timeSinceStart}S`);
             const timeToGo = status.duration.subtract(durationSinceStart);
-            messages.push(`The heating is${qualifier} on and will turn off in ${this.speakDuration(timeToGo)}.`);
+            messages.push(`The heating is ${qualifier} on and will turn off in ${this.speakDuration(timeToGo)}.`);
         } else {
-            messages.push(`The heating is${qualifier} on.`);
+            messages.push(`The heating is ${qualifier} on.`);
         }
     }
 
@@ -126,7 +127,7 @@ class ThermostatService extends Service {
             await client.logout();
         }
     }
-    
+
     async setAwayModeOff() {
         this._logger.debug('Turning Away Mode off...');
 
@@ -159,7 +160,7 @@ class ThermostatService extends Service {
     /**
      * Verifies the client is online and can
      * connect to the device
-     * @param {ThermostatClient} client 
+     * @param {ThermostatClient} client
      */
     async verifyDevice(client) {
         await this.verifyOnline(client);
@@ -171,7 +172,7 @@ class ThermostatService extends Service {
     /**
      * Adjusts the temperature by the specified
      * signed number, eg +/-2 degrees
-     * @param {number} tempDelta 
+     * @param {number} tempDelta
      */
     async adjustTemperature(tempDelta) {
         this._logger.debug(`Adjusting temperature by ${tempDelta}...`);
