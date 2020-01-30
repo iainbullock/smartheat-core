@@ -33,7 +33,7 @@ class ThermostatService extends Service {
             this.verifyContactable(device);
 
             const messages = [];
-            messages.push(`The current temperature is ${this.speakTemperature(device.currentTemperature)} degrees.`);
+            messages.push(`The hello hello current temperature is ${this.speakTemperature(device.currentTemperature)} degrees.`);
             messages.push(`The target is ${this.speakTemperature(device.targetTemperature)} degrees.`);
             if (device.awayMode === 'away') {
                     messages.push(`Away Mode is on.`);
