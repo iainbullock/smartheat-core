@@ -104,7 +104,7 @@ class ThermostatService extends Service {
         this._logger.debug(`Setting temperature to ${targetTemperature}...`);
         const client = await this.login();
         try {
-            await this.verifyDevice(client);
+            const device = await this.verifyDevice(client);
 
             let updatedDevice = await this._setTemperatureStrategy.setTemperature(client, targetTemperature);
 
@@ -122,7 +122,11 @@ class ThermostatService extends Service {
                 }
             }
 
-            await this.determineIfHolding(updatedDevice, messages);
+            let qualifier = 'now';
+            if (device.status == updatedDevice.status) {
+                qualifier = 'still';
+            }
+            await this.determineIfHolding(updatedDevice, messages, qualifier);
 
             return this.createResponse(messages, client, {
                 targetTemperature: updatedDevice.targetTemperature,
@@ -190,7 +194,7 @@ class ThermostatService extends Service {
             let updatedDevice = await this._setTemperatureStrategy.setTemperature(client, t);
 
             const messages = [`The target temperature is now ${this.speakTemperature(updatedDevice.targetTemperature)} degrees.`];
-            
+
             let qualifier = 'now';
             if (device.status == updatedDevice.status) {
                 qualifier = 'still';
