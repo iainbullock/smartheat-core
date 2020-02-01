@@ -41,7 +41,7 @@ class ThermostatService extends Service {
             if (device.awayMode === 'away') {
                     messages.push(`Away Mode is on.`);
             }
-            
+
             this.logStatus(device);
             return this.createResponse(messages, client, {
                 currentTemperature: device.currentTemperature,
@@ -121,6 +121,9 @@ class ThermostatService extends Service {
                     await this._holdStrategy.stopHoldIfRequired(thermostat.executionId);
                 }
             }
+
+            await this.determineIfHolding(updatedDevice, messages);
+
             return this.createResponse(messages, client, {
                 targetTemperature: updatedDevice.targetTemperature,
                 currentTemperature: updatedDevice.currentTemperature
