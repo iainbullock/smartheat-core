@@ -146,6 +146,8 @@ class ThermostatService extends Service {
     async setAwayModeOn() {
         this._logger.debug('Turning Away Mode on...');
 
+        turnOff();
+
         return this.setAwayMode('away');
     }
 
