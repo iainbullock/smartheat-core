@@ -189,7 +189,7 @@ class ThermostatService extends Service {
             const t = device.targetTemperature + tempDelta;
             let updatedDevice = await this._setTemperatureStrategy.setTemperature(client, t);
 
-            const messages = [`The target temperature is now ${this.speakTemperature(updatedDevice.targetTemperature)} degrees.`];
+            const messages = [`The target temperature is now ${this.speakTemperature(updatedDevice.targetTemperature)} degrees. Device ${device.status} Updated Device ${updatedDevice.status}`];
             let qualifier = 'now';
             if (tempDelta < 0) {
                 qualifier = 'still';
