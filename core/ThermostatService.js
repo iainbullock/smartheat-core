@@ -116,7 +116,7 @@ class ThermostatService extends Service {
                 if (onOff === 'on') {
                     const duration = forDuration || thermostat.defaultDuration;
                     const intent = await this._holdStrategy.holdIfRequiredFor(duration);
-                    messages = messages.concat(this.summarize(duration, intent, updatedDevice));
+                    /** messages = messages.concat(this.summarize(duration, intent, updatedDevice)); **/
                 } else {
                     await this._holdStrategy.stopHoldIfRequired(thermostat.executionId);
                 }
