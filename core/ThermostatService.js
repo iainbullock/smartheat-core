@@ -116,7 +116,7 @@ class ThermostatService extends Service {
                 targetTemperature = parseFloat(device.currentTemperature.toFixed(0)) + 1;
                 this._logger.debug(`Updating requested temperature to ${targetTemperature}...`);
             }
-
+messages = messages.concat(`New target ${targetTemperature}. Device temp ${device.currentTemperature}`)
             if (targetTemperature > thermostat.maxOnTemp) {
                 this._logger.debug(`Limiting temperature to ${thermostat.maxOnTemp}...`);
                 messages = messages.concat(`The maximum temperature is limited to ${thermostat.maxOnTemp} degrees.`);
@@ -214,8 +214,16 @@ class ThermostatService extends Service {
 
         try {
             const device = await this.verifyDevice(client);
+            const thermostat = await this.obtainThermostat();
 
             const t = device.targetTemperature + tempDelta;
+
+            if (t > thermostat.maxOnTemp) {
+                this._logger.debug(`Limiting temperature to ${thermostat.maxOnTemp}...`);
+                messages = messages.concat(`The maximum temperature is limited to ${thermostat.maxOnTemp} degrees.`);
+                t = thermostat.maxOnTemp;
+            }
+
             let updatedDevice = await this._setTemperatureStrategy.setTemperature(client, t);
 
             const messages = [`The target temperature is now ${this.speakTemperature(updatedDevice.targetTemperature)} degrees.`];
