@@ -108,16 +108,18 @@ class ThermostatService extends Service {
         const client = await this.login();
         try {
             const device = await this.verifyDevice(client);
+            let updatedDevice = '';
+            let messages = '';
 
-            let updatedDevice = await this._setTemperatureStrategy.setTemperature(client, targetTemperature);
-            let messages = [`The target temperature is now ${this.speakTemperature(updatedDevice.targetTemperature)} degrees.`];
-
-            if (onOff ==='on' && updatedDevice.awayMode === 'away') {
-                updatedDevice = await this._setTemperatureStrategy.setAwayMode(updatedDevice, 'home');
+            if (onOff ==='on' && device.awayMode === 'away') {
+                updatedDevice = await this._setTemperatureStrategy.setAwayMode(client, 'home');
                 messages = messages.concat(`Away mode is now ${updatedDevice.awayMode === 'away' ? 'on' : 'off'}.`);
             }
 
-              this.logStatus(updatedDevice);
+            updatedDevice = await this._setTemperatureStrategy.setTemperature(client, targetTemperature);
+            messages = messages.concat(`The target temperature is now ${this.speakTemperature(updatedDevice.targetTemperature)} degrees.`);
+
+            this.logStatus(updatedDevice);
 
             if (this._context.source === 'user') {
                 const thermostat = await this.obtainThermostat();
