@@ -112,7 +112,7 @@ class ThermostatService extends Service {
             let updatedDevice = '';
             const thermostat = await this.obtainThermostat();
 
-            if (onOff === 'on' && device.currentTemperature > targetTemperature) {
+            if (onOff === 'on' && (device.currentTemperature > targetTemperature) ) {
                 targetTemperature = device.currentTemperature + 0.5;
             }
 
