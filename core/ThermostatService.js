@@ -34,7 +34,10 @@ class ThermostatService extends Service {
 
             const messages = [];
             messages.push(`The current temperature is ${this.speakTemperature(device.currentTemperature)} degrees.`);
-            messages.push(`The target is ${this.speakTemperature(device.targetTemperature)} degrees.`);
+
+            if (device.awayMode === 'home') {
+              messages.push(`The target is ${this.speakTemperature(device.targetTemperature)} degrees.`);
+            }
 
             await this.determineIfHolding(device, messages);
 
@@ -145,8 +148,6 @@ class ThermostatService extends Service {
 
     async setAwayModeOn() {
         this._logger.debug('Turning Away Mode on...');
-
-        turnOff();
 
         return this.setAwayMode('away');
     }
