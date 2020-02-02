@@ -113,7 +113,7 @@ class ThermostatService extends Service {
             const thermostat = await this.obtainThermostat();
 
             if (onOff === 'on' && (device.currentTemperature > targetTemperature) ) {
-                targetTemperature = math.trunc(parseFloat(device.currentTemperature)) + 1;
+                targetTemperature = Math.trunc(parseFloat(device.currentTemperature)) + 1;
                 this._logger.debug(`Updating requested temperature to ${targetTemperature}...`);
             }
 messages = messages.concat(`New target ${targetTemperature}. Device temp ${device.currentTemperature}`)
