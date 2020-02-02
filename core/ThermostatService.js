@@ -116,7 +116,7 @@ class ThermostatService extends Service {
                 targetTemperature = Math.trunc(parseFloat(device.currentTemperature)) + 1;
                 this._logger.debug(`Updating requested temperature to ${targetTemperature}...`);
             }
-messages = messages.concat(`New target ${targetTemperature}. Device temp ${device.currentTemperature}`)
+
             if (targetTemperature > thermostat.maxOnTemp) {
                 this._logger.debug(`Limiting temperature to ${thermostat.maxOnTemp}...`);
                 messages = messages.concat(`The maximum temperature is limited to ${thermostat.maxOnTemp} degrees.`);
@@ -215,6 +215,7 @@ messages = messages.concat(`New target ${targetTemperature}. Device temp ${devic
         try {
             const device = await this.verifyDevice(client);
             const thermostat = await this.obtainThermostat();
+            let messages = [` `];
 
             const t = device.targetTemperature + tempDelta;
 
@@ -226,12 +227,13 @@ messages = messages.concat(`New target ${targetTemperature}. Device temp ${devic
 
             let updatedDevice = await this._setTemperatureStrategy.setTemperature(client, t);
 
-            const messages = [`The target temperature is now ${this.speakTemperature(updatedDevice.targetTemperature)} degrees.`];
+            messages = messages.concat(`The target temperature is now ${this.speakTemperature(updatedDevice.targetTemperature)} degrees.`);
 
             let qualifier = 'now';
             if (device.status == updatedDevice.status) {
                 qualifier = 'still';
             }
+            
             await this.determineIfHolding(updatedDevice, messages, qualifier);
 
             this.logStatus(device);
