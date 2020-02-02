@@ -138,8 +138,8 @@ class ThermostatService extends Service {
             if (device.status == updatedDevice.status) {
                 qualifier = 'still';
             }
-            await this.determineIfHolding(updatedDevice, messages, qualifier);
-
+            /*await this.determineIfHolding(updatedDevice, messages, qualifier);
+*/
             return this.createResponse(messages, client, {
                 targetTemperature: updatedDevice.targetTemperature,
                 currentTemperature: updatedDevice.currentTemperature
