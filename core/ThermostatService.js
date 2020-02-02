@@ -217,7 +217,7 @@ class ThermostatService extends Service {
             const thermostat = await this.obtainThermostat();
             let messages = [` `];
 
-            const t = device.targetTemperature + tempDelta;
+            let t = device.targetTemperature + tempDelta;
 
             if (t > thermostat.maxOnTemp) {
                 this._logger.debug(`Limiting temperature to ${thermostat.maxOnTemp}...`);
@@ -233,7 +233,7 @@ class ThermostatService extends Service {
             if (device.status == updatedDevice.status) {
                 qualifier = 'still';
             }
-            
+
             await this.determineIfHolding(updatedDevice, messages, qualifier);
 
             this.logStatus(device);
