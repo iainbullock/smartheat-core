@@ -112,12 +112,12 @@ class ThermostatService extends Service {
             let updatedDevice = '';
             let messages = '';
 
-            if (targetTemperature > thermostat.maxOnTemp) {
+          /*  if (targetTemperature > thermostat.maxOnTemp) {
                 this._logger.debug(`Limiting temperature to ${thermostat.maxOnTemp}...`);
                 messages = messages.concat(`The maximum temperature is limited to ${thermostat.maxOnTemp} degrees.`);
                 targetTemperature = thermostat.maxOnTemp;
             }
-
+*/
             if (onOff ==='on' && device.awayMode === 'away') {
                 let updatedDevice2 = await this._setTemperatureStrategy.setAwayMode(client, 'home');
                 updatedDevice = await this._setTemperatureStrategy.setTemperature(client, targetTemperature);
