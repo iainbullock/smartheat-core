@@ -108,7 +108,7 @@ class ThermostatService extends Service {
         const client = await this.login();
         try {
             const device = await this.verifyDevice(client);
-            const thermostat = await this.obtainThermostat();
+
             let updatedDevice = '';
             let messages = '';
 
