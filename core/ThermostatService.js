@@ -111,21 +111,14 @@ class ThermostatService extends Service {
 
             let updatedDevice = '';
             let messages = '';
-
-            if (targetTemperature > thermostat.maxOnTemp) {
-                this._logger.debug(`Limiting temperature to ${thermostat.maxOnTemp}...`);
-                messages = messages.concat(`The maximum temperature is limited to ${thermostat.maxOnTemp} degrees.`);
-                targetTemperature = thermostat.maxOnTemp;
-            }
-
             if (onOff ==='on' && device.awayMode === 'away') {
                 let updatedDevice2 = await this._setTemperatureStrategy.setAwayMode(client, 'home');
                 updatedDevice = await this._setTemperatureStrategy.setTemperature(client, targetTemperature);
-                messages = messages.concat(`The target temperature is now ${this.speakTemperature(updatedDevice.targetTemperature)} degrees.`);
+                messages = [`The target temperature is now ${this.speakTemperature(updatedDevice.targetTemperature)} degrees.`];
                 messages = messages.concat(`Away mode is now ${updatedDevice2.awayMode === 'away' ? 'on' : 'off'}.`);
             } else {
                 updatedDevice = await this._setTemperatureStrategy.setTemperature(client, targetTemperature);
-                messages = messages.concat(`The target temperature is now ${this.speakTemperature(updatedDevice.targetTemperature)} degrees.`);
+                messages = [`The target temperature is now ${this.speakTemperature(updatedDevice.targetTemperature)} degrees.`];
             }
 
               this.logStatus(updatedDevice);
