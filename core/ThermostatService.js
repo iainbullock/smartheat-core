@@ -110,7 +110,8 @@ class ThermostatService extends Service {
             const device = await this.verifyDevice(client);
             let messages = [` `];
             let updatedDevice = '';
-
+            const thermostat = await this.obtainThermostat();
+            
             if (targetTemperature > thermostat.maxOnTemp) {
                 this._logger.debug(`Limiting temperature to ${thermostat.maxOnTemp}...`);
                 messages = messages.concat(`The maximum temperature is limited to ${thermostat.maxOnTemp} degrees.`);
