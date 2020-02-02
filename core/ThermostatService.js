@@ -103,7 +103,7 @@ class ThermostatService extends Service {
         return this.setTemperature(t, null, 'off');
     }
 
-    async setTemperature(targetTemperature, forDuration, onOff = 'on') {
+    async setTemperature(targetTemperature, forDuration, onOff = 'undefined') {
         this._logger.debug(`Setting temperature to ${targetTemperature}...`);
         const client = await this.login();
         try {
@@ -116,7 +116,7 @@ class ThermostatService extends Service {
                 targetTemperature = parseFloat(device.currentTemperature.toFixed(0)) + 1;
                 this._logger.debug(`Updating requested temperature to ${targetTemperature}...`);
             }
-messages = messages.concat(`New target ${targetTemperature}. Device temp ${device.currentTemperature}`)
+
             if (targetTemperature > thermostat.maxOnTemp) {
                 this._logger.debug(`Limiting temperature to ${thermostat.maxOnTemp}...`);
                 messages = messages.concat(`The maximum temperature is limited to ${thermostat.maxOnTemp} degrees.`);
