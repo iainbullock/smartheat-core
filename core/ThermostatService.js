@@ -64,7 +64,7 @@ class ThermostatService extends Service {
             this.verifyContactable(device);
 
             const messages = [];
-            messages.push(`The device time is ${this.speakTemperature(device.currentTemperature)}.`);
+            messages.push(`The device time is ${device.time}.`);
 
             this.logStatus(device);
             return this.createResponse(messages, client, {
