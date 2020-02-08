@@ -55,6 +55,26 @@ class ThermostatService extends Service {
         }
     }
 
+    async time() {
+        this._logger.debug('Requesting time...');
+        const client = await this.login();
+        try {
+            await this.verifyOnline(client);
+            const device = await client.device();
+            this.verifyContactable(device);
+
+            const messages = [];
+            messages.push(`The device time is ${this.speakTemperature(device.currentTemperature)}.`);
+
+            this.logStatus(device);
+            return this.createResponse(messages, client, {
+                currentTemperature: device.currentTemperature
+            });
+        } finally {
+            await client.logout();
+        }
+    }
+
     async determineIfHolding(device, messages, qualifier = '') {
         if (qualifier !== '') {
             qualifier = ` ${qualifier}`;
