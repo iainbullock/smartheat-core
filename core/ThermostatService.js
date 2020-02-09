@@ -63,9 +63,9 @@ class ThermostatService extends Service {
             const device = await client.device();
             this.verifyContactable(device);
 
-            let formatted_device_time = Date.parse(device.time.toLocaleString());
+            let formatted_device_time = device.time;
 /*            let timeDelta = Date() - Date.parse(formatted_device_time);*/
-            let timeDelta = Date.parse(Date()) - formatted_device_time;
+            let timeDelta = Date.parse(Date()) - forma;
 
             const messages = [];
             messages.push(`The device time is ${formatted_device_time}, which is ${timeDelta} seconds fast`);
