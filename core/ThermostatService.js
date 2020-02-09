@@ -63,13 +63,8 @@ class ThermostatService extends Service {
             const device = await client.device();
             this.verifyContactable(device);
 
-<<<<<<< HEAD
             let formatted_device_time = dateFormat(device.time, "dddd dS mmmm, h MM TT");
             let timeDelta = (Date.parse(Date()) - device.time - 120000) / 60000;
-=======
-            let formatted_device_time = device.time.toLocaleString();
-            let timeDelta = Date() - Date.parse(formatted_device_time);
->>>>>>> parent of 64c66a0... Update ThermostatService.js
 
             const messages = [];
             messages.push(`The device time is ${formatted_device_time}, which is ${timeDelta.toFixed(1)} minutes ${if (timeDelta < 0) ? 'fast' : 'slow'}`);
