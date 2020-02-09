@@ -64,7 +64,8 @@ class ThermostatService extends Service {
             this.verifyContactable(device);
 
             const messages = [];
-            messages.push(`The device time is ${device.time}.`);
+            let formatted_time = device.time.getMonth();
+            messages.push(`The device time is ${formatted_time}.`);
 
             this.logStatus(device);
             return this.createResponse(messages, client, {
