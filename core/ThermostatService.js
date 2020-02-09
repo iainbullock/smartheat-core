@@ -1,6 +1,6 @@
 const moment = require('moment');
 const Duration = require('durationjs');
-
+const dateFormat = require('dateformat');
 const Service = require('./Service');
 
 class ThermostatService extends Service {
