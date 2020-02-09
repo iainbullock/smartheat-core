@@ -63,10 +63,12 @@ class ThermostatService extends Service {
             const device = await client.device();
             this.verifyContactable(device);
 
-            const messages = [];
+
+            let timeDelta = Date() - device.time();
             let formatted_device_time = device.time.toLocaleString();
-            let formatted_server_time = Date().toLocaleString();
-            messages.push(`The device time is ${formatted_device_time}, ${formatted_server_time}`);
+
+            const messages = [];
+            messages.push(`The device time is ${formatted_device_time}, which is ${timeDelta} seconds fast`);
 
             this.logStatus(device);
             return this.createResponse(messages, client, {
