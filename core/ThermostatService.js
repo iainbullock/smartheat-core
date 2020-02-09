@@ -65,9 +65,9 @@ class ThermostatService extends Service {
 
             let formatted_device_time = dateFormat(device.time, "dddd dS mmmm, h MM TT");
             let timeDelta = (Date.parse(Date()) - device.time - 120000) / 60000;
-            
+
             const messages = [];
-            messages.push(`The device time is ${formatted_device_time}, which is ${timeDelta.toFixed(1)} minutes ${if (timeDelta < 0) ? 'fast' : 'slow'}`);
+            messages.push(`The device time is ${formatted_device_time}, which is ${timeDelta.toFixed(1)} minutes ${(timeDelta < 0) ? 'fast' : 'slow'}`);
 
             this.logStatus(device);
             return this.createResponse(messages, client, {
