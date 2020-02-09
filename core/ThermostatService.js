@@ -65,7 +65,7 @@ class ThermostatService extends Service {
 
             let formatted_device_time = device.time;
 /*            let timeDelta = Date() - Date.parse(formatted_device_time);*/
-            let timeDelta = Date.parse(Date()) - forma;
+            let timeDelta = Date.parse(Date()) - formatted_device_time;
 
             const messages = [];
             messages.push(`The device time is ${formatted_device_time}, which is ${timeDelta} seconds fast`);
